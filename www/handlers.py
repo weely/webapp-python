@@ -106,6 +106,16 @@ def signin():
         '__template__' : 'signin.html'
     }
 
+@get('/user/{id}')
+async def user_edit(id):
+    # user = request.__user__
+    user = await User.find(id)
+    user.password = '******'
+    return {
+        '__template__': 'user.html',
+        'user': user
+    }
+
 @post('/api/authenticate')
 async def authenticate(*, email, password):
     if not email:
@@ -301,5 +311,9 @@ async def api_update_blog(id, request, *, name, summary, content):
 async def api_delete_blog(request, *, id):
     check_admin(request)
     blog = await Blog.find(id)
+    comments = await Comment.findAll('blog_id=?', [id])
+    for comment in comments:
+        await comment.remove()
     await blog.remove()
+    # await comments.remove()
     return dict(id=id)

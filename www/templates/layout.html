@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     {% block meta %} <!--block meta--> {% endblock %}
     <title>{% block title %} ? {% endblock %} - Awesome Python Webapp</title>
+{#    <link rel="Bookmark" href="/static/img/timg.png">#}
+    <link rel="icon" href="/static/img/timg.png" type="image/x-icon" />
+{#    <link rel="shortcut icon" href="/static/img/timg.png">#}
     <link rel="stylesheet" href="/static/css/uikit.min.css">
     <link rel="stylesheet" href="/static/css/uikit.gradient.min.css">
     <link rel="stylesheet" href="/static/css/awesome.css">
@@ -11,7 +14,7 @@
     <script src="/static/js/sha1.min.js"></script>
     <script src="/static/js/uikit.min.js"></script>
     <script src="/static/js/sticky.min.js"></script>
-    <script src="/static/js/vue.min.js"></script>
+    <script src="/static/js/vue.js"></script>
     <script src="/static/js/awesome.js"></script>
     {% block beforehead %} <!-- before head--> {% endblock %}
 </head>
@@ -28,9 +31,10 @@
                 <ul class="uk-navbar-nav">
                 {% if __user__  %}
                     <li class="uk-parent" data-uk-dropdown>
-                        <a href="#0"><i class="uk-icon-user"></i>{{ __user__ .name }}</a>
+                        <a href="#0"><i class="uk-icon-user"></i>{{ __user__.name }}</a>
                         <div class="uk-dropdown uk-dropdown-navbar">
                             <ul class="uk-nav uk-nav-navbar">
+                                <li><a href="/user/{{ __user__.id }}"><i class="uk-icon-cog"></i>设置</a></li>
                                 <li><a href="/signout"><i class="uk-icon-sign-out"></i>登出</a></li>
                             </ul>
                         </div>

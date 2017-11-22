@@ -8,7 +8,7 @@ from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
 WINDOW_WIDTH, WINDOW_HEIGHT = (540, 360)
-PATH = r'C:\Users\lw\PycharmProjects\webapp\www\app.py'
+PATH = r'd:\webapp-python\www\app.py'
 
 class MyFrame(object):
 

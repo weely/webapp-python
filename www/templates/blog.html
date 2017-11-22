@@ -32,9 +32,9 @@
     <article class="uk-article">
         <h2>{{ blog.name }}</h2>
         <p class="uk-article-meta">发表于{{ blog.created_at|datetime }}</p>
-        <p>{{ blog.html_content|safe }}</p>
-        <!--<p>{{ blog.summary }}</p>-->
-        <!--<p>{{ blog.content }}</p>-->
+{#        <p>{{ blog.html_content|safe }}</p>#}
+{#        <p>{{ blog.summary }}</p>#}
+        <p>{{ blog.content }}</p>
     </article>
     <hr class="uk-article-divider">
     {% if __user__ %}
@@ -69,8 +69,8 @@
                     <p class="uk-comment-meta">{{ comment.created_at|datetime }}</p>
                 </header>
                 <div class="uk-comment-body">
-                    {{ comment.html_content|safe }}
-                    <!--<p>{{ comment.content }}</p>-->
+{#                    {{ comment.html_content|safe }}#}
+                    <p>{{ comment.content }}</p>
                 </div>
             </article>
             <hr class="uk-article-divider">

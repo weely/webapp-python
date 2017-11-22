@@ -1,49 +1,62 @@
 <!DOCTYPE html>
 <html class="uk-height-1-1">
 <head>
+{#    js引用自 尤雨溪 #}
     <meta charset="utf-8" />
     <title>登录 - Awesome Python Webapp</title>
+    <link rel="Bookmark" href="/static/img/user.png">
     <link rel="stylesheet" href="/static/css/uikit.min.css">
     <link rel="stylesheet" href="/static/css/uikit.gradient.min.css">
+    <style>
+        canvas {
+                position: absolute;
+                top: 0;
+                left: 0;
+                z-index: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+            }
+    </style>
     <script src="/static/js/jquery.min.js"></script>
     <script src="/static/js/sha1.min.js"></script>
     <script src="/static/js/uikit.min.js"></script>
-    <script src="/static/js/vue.min.js"></script>
+    <script src="/static/js/vue.js"></script>
     <script src="/static/js/awesome.js"></script>
     <script>
-$(function() {
-    var vmAuth = new Vue({
-        el: '#vm',
-        data: {
-            email: '',
-            password: ''
-        },
-        methods: {
-            submit: function(event) {
-                event.preventDefault();
-                var
-                    $form = $('#vm'),
-                    email = this.email.trim().toLowerCase(),
-                    data = {
-                        email: email,
-                        password: this.password === '' ? '' : CryptoJS.SHA1(email + ':' + this.password).toString()
-                    };
-                $form.postJSON('/api/authenticate', data, function(err, result) {
-                    if (! err) {
-                        location.assign('/');
-                    }
-                });
+    $(function() {
+        var vmAuth = new Vue({
+            el: '#vm',
+            data: {
+                email: '',
+                password: ''
+            },
+            methods: {
+                submit: function(event) {
+                    event.preventDefault();
+                    var
+                        $form = $('#vm'),
+                        email = this.email.trim().toLowerCase(),
+                        data = {
+                            email: email,
+                            password: this.password === '' ? '' : CryptoJS.SHA1(email + ':' + this.password).toString()
+                        };
+                    $form.postJSON('/api/authenticate', data, function(err, result) {
+                        if (! err) {
+                            location.assign('/');
+                        }
+                    });
+                }
             }
-        }
+        });
     });
-});
     </script>
 </head>
 <body class="uk-height-1-1">
     <div class="uk-vertical-align uk-text-center uk-height-1-1">
         <div class="uk-vertical-align-middle" style="width: 320px">
             <p><a href="/" class="uk-icon-button"><i class="uk-icon-html5"></i></a> <a href="/">Awesome Python Webapp</a></p>
-            <form id="vm" v-on="submit: submit" class="uk-panel uk-panel-box uk-form">
+            <form id="vm" v-on:submit="submit" class="uk-panel uk-panel-box uk-form">
                 <div class="uk-alert uk-alert-danger uk-hidden"></div>
                 <div class="uk-form-row">
                     <div class="uk-form-icon uk-width-1-1">
@@ -63,5 +76,53 @@ $(function() {
             </form>
         </div>
     </div>
+    <canvas></canvas>
+        <script>
+            document.addEventListener('touchmove', function (e) {
+                e.preventDefault()
+            })
+            var c = document.getElementsByTagName('canvas')[0],
+                x = c.getContext('2d'),
+                pr = window.devicePixelRatio || 1,
+                w = window.innerWidth,
+                h = window.innerHeight,
+                f = 90,
+                q,
+                m = Math,
+                r = 0,
+                u = m.PI*2,
+                v = m.cos,
+                z = m.random
+            c.width = w*pr
+            c.height = h*pr
+            x.scale(pr, pr)
+            x.globalAlpha = 0.6
+            function i(){
+                x.clearRect(0,0,w,h)
+                q=[{x:0,y:h*.7+f},{x:0,y:h*.7-f}]
+                while(q[1].x<w+f) d(q[0], q[1])
+            }
+            function d(i,j){
+                x.beginPath()
+                x.moveTo(i.x, i.y)
+                x.lineTo(j.x, j.y)
+                var k = j.x + (z()*2-0.25)*f,
+                    n = y(j.y)
+                x.lineTo(k, n)
+                x.closePath()
+                r-=u/-50
+                x.fillStyle = '#'+(v(r)*127+128<<16 | v(r+u/3)*127+128<<8 | v(r+u/3*2)*127+128).toString(16)
+                x.fill()
+                q[0] = q[1]
+                q[1] = {x:k,y:n}
+            }
+            function y(p){
+                var t = p + (z()*2-1.1)*f
+                return (t>h||t<0) ? y(p) : t
+            }
+            document.onclick = i
+            document.ontouchstart = i
+            i()
+        </script>
 </body>
 </html>
