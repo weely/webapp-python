@@ -1,3 +1,4 @@
 .idea/
 www/__pycache__/
 www/static/uploads/
+www/config_default.py
