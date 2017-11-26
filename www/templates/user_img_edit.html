@@ -1,0 +1,144 @@
+{% extends 'layout.html' %}
+
+{% block title %}用户设置{% endblock %}
+
+{% block beforehead %}
+<style>
+.user-img-panel {
+    display: inline-block;
+    vertical-align: top;
+    position: relative;
+    width:200px;
+    height:200px;
+}
+.user-img-show {
+    display: block;
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    height:100%;
+}
+.user-img-file {
+    display: none;
+    position: absolute;
+    z-index: 5;
+    opacity:0;
+    width: 100%;
+    height:100%;
+}
+.user-img-edit {
+    display: none;
+    position: absolute;
+    width: 100%;
+    background: rgba(34, 34, 34, 0.5);
+{#    overflow: hidden;#}
+    z-index: 1;
+    bottom: 0px;
+    left: 0;
+{#    height: 0px;#}
+    transition:height .3s;
+    color: rgba(230, 231, 228, 0.6);
+    text-align: center;
+{#    filter: alpha(opacity:60);#}
+}
+</style>
+<script>
+    function show_img_edit(){
+        document.getElementById("img_edit_info").style.display = "block";
+    }
+    function hidden_img_edit(){
+        document.getElementById("img_edit_info").style.display = "none";
+    }
+
+    function postFile(method, url, data, callback){
+        var opt = {
+            type: method,
+            dataType: 'json',
+            url:  url,
+            data: data,
+            contentType: false,
+            processData: false
+        };
+
+        $.ajax(opt).done(function (r) {
+            console.log(r)
+            if (r && r.error) {
+                return callback(r);
+            }
+            return callback(null, r);
+        }).fail(function (jqXHR, textStatus) {
+            return callback({'error': 'http_bad_response', 'data': '' + jqXHR.status, 'message': '网络好像出问题了 (HTTP ' + jqXHR.status + ')'});
+        });
+    }
+
+    $(function(){
+        var vm = new Vue({
+            el: '#vm',
+            data: {
+                img_src: '{{ user.image }}'
+            },
+            methods: {
+                setImg: function(event){
+                    event.preventDefault();
+                    $("#upload_img").click();
+                },
+                changeImg: function(e){
+                    var file = e.target.files[0];
+                    if (file != undefined) {
+                        var reader = new FileReader();
+                        var that = this;
+                        reader.readAsDataURL(file);
+                        reader.onload = function(e) {
+                            that.img_src = this.result
+                        }
+                    }
+                },
+                onUpload: function(event){
+                    event.preventDefault();
+{#                    console.log($("#upload_img")[0].files);#}
+                    if ($("#upload_img")[0].files.length !== 0) {
+                        var formData = new FormData();
+                        formData.append('file', $("#upload_img")[0].files[0]);
+{#                        formData.append('type', 'test');#}
+                        postFile('POST','/user/img/' + '{{ user.id }}' + '/edit', formData, function(err, r){
+                            if (err) {
+                                return alert(err.message || err.error || err);
+                            }
+                            refresh();
+                        });
+                    }
+                }
+            }
+        });
+        $('#vm').show();
+    });
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="uk-width-2-3">
+    <h1>用户设置</h1>
+    <form id="vm" v-on:submit="onUpload" class="uk-form" >
+        <fieldset>
+            <legend><label class="uk-form-label">头像设置</label></legend>
+            <div class="uk-form-row">
+                <div class="uk-alert uk-alert-danger uk-hidden">
+            </div>
+            <div class="uk-form-row" style="text-align:center;">
+                <div class="user-img-panel" onmouseover="show_img_edit()" onmouseleave="hidden_img_edit()">
+                    <img :src="img_src" class="user-img-show" @click="setImg">
+                    <input type="file" class="user-img-file" id="upload_img" @change="changeImg" accept="image/gif,image/jpeg,image/jpg,image/png">
+                    <span id="img_edit_info" class="user-img-edit">选择图片</span>
+                </div>
+                <span><label style="color:gray;display:inline;margin-left: 10px;">支持jpg、jpeg、gif、png、bmp格式的图片</label></span>
+            </div>
+
+            <div class="uk-form-row" style="text-align:center;margin: 30px;">
+                <button type="submit" class="uk-button uk-button-primary"><i class="uk-icon-save"></i>保存</button>
+                <a href="/user/{{ user.id }}" class="uk-button"><i class="uk-icon-times"></i> 取消</a>
+            </div>
+        </fieldset>
+    </form>
+</div>
+
+{% endblock %}

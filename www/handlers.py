@@ -3,6 +3,7 @@
 
 import re, time, json, logging, hashlib, base64, asyncio
 from aiohttp import web
+import os
 from coroweb import get, post
 from apis import APIValueError, APIResourceNotFoundError, APIError, APIPermissionError, Page
 from models import User, Comment, Blog, next_id
@@ -149,6 +150,39 @@ def signout(request):
     logging.info('user signed out.')
     return r
 
+@get('/show/user/img/{id}/edit')
+async def show_user_img_edit_(id):
+    user = await User.find(id)
+    return {
+        '__template__': 'user_img_edit.html',
+        'user': user
+    }
+
+
+@post('/user/img/{id}/edit')
+async def user_img_edit(id, request):
+    reader = await request.multipart()
+    # /!\ Don't forget to validate your inputs /!\
+    # reader.next() will `yield` the fields of your form
+    field = await reader.next()
+    filename = field.filename
+    filepath = os.path.join(os.path.split(os.path.abspath(__file__))[0], 'static/img/', filename);
+    if os.path.exists(filepath):  filepath = filepath
+
+    # You cannot rely on Content-Length if transfer is chunked.
+    size = 0
+    with open(os.path.join(os.path.split(os.path.abspath(__file__))[0], 'static/img/', filename), 'wb') as f:
+        while True:
+            chunk = await field.read_chunk()  # 8192 bytes by default.
+            if not chunk:
+                break
+            size += len(chunk)
+            f.write(chunk)
+    print(filename,'-----')
+    return dict({"success": '{} sized of {} successfully stored'.format(filename, size)})
+    # return web.Response(text='{} sized of {} successfully stored'.format(filename, size))
+
+
 @get('/manage/')
 def manage():
     return 'redirect:/manage/comments'
@@ -255,6 +289,24 @@ async def api_register_user(*, email, name, password):
     user = User(id=uid, name=name, email=email, password=hashlib.sha1(sha1_passwd.encode('utf-8')).hexdigest(), \
             image='http://www.gravatar.com/avatar/%s?d=mm&s=120' % hashlib.md5(email.encode('utf-8')).hexdigest())
     await user.save()
+    r = web.Response()
+    r.set_cookie(COOKIE_NAME, user2cookie(user,86400), max_age=86400, httponly=True)
+    user.password ='******'
+    r.content_type='application/json'
+    r.body=json.dumps(user, ensure_ascii=False).encode('utf-8')
+    return r
+
+@post('/api/user/{id}/edit')
+async def api_user_edit(id, *, email, name, password):
+    if not name or not name.strip():
+        raise APIValueError('name')
+    if not password or not _RE_SHA1.match(password):
+        raise APIValueError('password')
+    user = await User.find(id)
+    user.name = name
+    sha1_passwd = '%s:%s' % (user.id, password)
+    user.password = hashlib.sha1(sha1_passwd.encode('utf-8')).hexdigest()
+    await user.update()
     r = web.Response()
     r.set_cookie(COOKIE_NAME, user2cookie(user,86400), max_age=86400, httponly=True)
     user.password ='******'

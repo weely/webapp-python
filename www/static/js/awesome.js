@@ -176,8 +176,6 @@ function toSmartDate(timestamp) {
     return s;
 }
 
-
-
 $(function() {
     $('.x-smartdate').each(function() {
         $(this).removeClass('x-smartdate').text(toSmartDate($(this).attr('date')));
@@ -346,6 +344,25 @@ function postJSON(url, data, callback) {
     }
     _httpJSON('POST', url, data, callback);
 }
+
+// function postFile(method, url, data, callback){
+//     var opt = {
+//         type: method,
+//         dataType: 'json',
+//         url:  url,
+//         data: JSON.stringify(data || {}),
+//         contentType: 'application/json'
+//     };
+//
+//     $.ajax(opt).done(function (r) {
+//         if (r && r.error) {
+//             return callback(r);
+//         }
+//         return callback(null, r);
+//     }).fail(function (jqXHR, textStatus) {
+//         return callback({'error': 'http_bad_response', 'data': '' + jqXHR.status, 'message': '网络好像出问题了 (HTTP ' + jqXHR.status + ')'});
+//     });
+// }
 
 // extends Vue:
 
