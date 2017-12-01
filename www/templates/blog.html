@@ -32,9 +32,12 @@
     <article class="uk-article">
         <h2>{{ blog.name }}</h2>
         <p class="uk-article-meta">发表于{{ blog.created_at|datetime }}</p>
-{#        <p>{{ blog.html_content|safe }}</p>#}
-{#        <p>{{ blog.summary }}</p>#}
-        <p class="uk-article-lead">{{ blog.content }}</p>
+        <div class="uk-article-lead">
+            {{ blog.html_comment|safe }}
+{#            <p>{{ blog.summary }}</p>#}
+{#            {{ blog.content }}#}
+        </div>
+
     </article>
     <hr class="uk-article-divider">
     {% if __user__ %}
@@ -70,6 +73,7 @@
                 </header>
                 <div class="uk-comment-body">
 {#                    {{ comment.html_content|safe }}#}
+                    {{ comment }}
                     <p>{{ comment.content }}</p>
                 </div>
             </article>
@@ -85,7 +89,7 @@
     <div class="uk-panel uk-panel-box">
         <div class="uk-text-center">
             <img class="uk-border-cricle" width=100% height=100% style="" src="{{ blog.user_image }}">
-            <h3>{{ blog.user_name }}</h3>
+            <h3>{{ blog.user_name }}的日志</h3>
         </div>
     </div>
     <div class="uk-panel uk-panel-header">

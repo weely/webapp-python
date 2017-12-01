@@ -18,9 +18,16 @@
             <p class="uk-article-meta">您暂未发表日志，请发表日志</p>
         </article>
     {% endfor %}
+    <pagination v-bind="{{ page }}"></pagination>
 </div>
 
 <div class="uk-width-medium-1-4">
+    <div class="uk-panel uk-panel-box">
+        <div v-if="{{ __user__ }}" class="uk-text-center">
+            <img class="uk-border-cricle" width=100% height=100% style="" src="{{ __user__.image }}">
+            <h3>{{ __user__.name }}的日志</h3>
+        </div>
+    </div>
     <div class="uk-panel uk-panel-header">
         <h3 class="uk-panel-title">友情链接</h3>
         <ul class="uk-list uk-list-line">
