@@ -167,7 +167,7 @@ async def user_img_edit(id, request):
     field = await reader.next()
     filename = field.filename
     filepath = os.path.join(os.path.split(os.path.abspath(__file__))[0], 'static/img/', filename);
-    if os.path.exists(filepath):  filepath = filepath
+    if os.path.exists(filepath):  filepath = os.path.normpath(filepath)
 
     # You cannot rely on Content-Length if transfer is chunked.
     size = 0
@@ -178,8 +178,18 @@ async def user_img_edit(id, request):
                 break
             size += len(chunk)
             f.write(chunk)
-    print(filename,'-----')
-    return dict({"success": '{} sized of {} successfully stored'.format(filename, size)})
+    user = await User.find(id)
+    blogs = await Blog.findAll("user_id=?", [id])
+    comments = await Comment.findAll("user_id=?", [id])
+    for comment in comments:
+        comment.user_image = "/static/img/{}".format(filename)
+        await comment.update()
+    for blog in blogs:
+        blog.user_image = "/static/img/{}".format(filename)
+        await  blog.update()
+    user.image = "/static/img/{}".format(filename)
+    await user.update()
+    return dict({"msg": '{} sized of {} successfully stored'.format(filename, size)})
     # return web.Response(text='{} sized of {} successfully stored'.format(filename, size))
 
 
@@ -303,10 +313,18 @@ async def api_user_edit(id, *, email, name, password):
     if not password or not _RE_SHA1.match(password):
         raise APIValueError('password')
     user = await User.find(id)
+    comments = await Comment.findAll("user_id=?", [id])
+    blogs = await Blog.findAll("user_Id=?", [id])
     user.name = name
     sha1_passwd = '%s:%s' % (user.id, password)
     user.password = hashlib.sha1(sha1_passwd.encode('utf-8')).hexdigest()
     await user.update()
+    for comment in comments:
+        comment.user_image = "/static/img/{}".format(filename)
+        await comment.update()
+    for blog in blogs:
+        blog.user_image = "/static/img/{}".format(filename)
+        await  blog.update()
     r = web.Response()
     r.set_cookie(COOKIE_NAME, user2cookie(user,86400), max_age=86400, httponly=True)
     user.password ='******'

@@ -50,27 +50,6 @@
         document.getElementById("img_edit_info").style.display = "none";
     }
 
-    function postFile(method, url, data, callback){
-        var opt = {
-            type: method,
-            dataType: 'json',
-            url:  url,
-            data: data,
-            contentType: false,
-            processData: false
-        };
-
-        $.ajax(opt).done(function (r) {
-            console.log(r)
-            if (r && r.error) {
-                return callback(r);
-            }
-            return callback(null, r);
-        }).fail(function (jqXHR, textStatus) {
-            return callback({'error': 'http_bad_response', 'data': '' + jqXHR.status, 'message': '网络好像出问题了 (HTTP ' + jqXHR.status + ')'});
-        });
-    }
-
     $(function(){
         var vm = new Vue({
             el: '#vm',
@@ -99,7 +78,6 @@
                     if ($("#upload_img")[0].files.length !== 0) {
                         var formData = new FormData();
                         formData.append('file', $("#upload_img")[0].files[0]);
-{#                        formData.append('type', 'test');#}
                         postFile('POST','/user/img/' + '{{ user.id }}' + '/edit', formData, function(err, r){
                             if (err) {
                                 return alert(err.message || err.error || err);
