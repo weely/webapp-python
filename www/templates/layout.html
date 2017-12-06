@@ -62,11 +62,11 @@
                     <ul class="uk-navbar-nav">
                     {% if __user__  %}
                         <li class="uk-parent" data-uk-dropdown>
-                            <a href="#0"  style="color:black;"><i class="uk-icon-user"></i>{{ __user__.name }}</a>
+                            <a href="#0"  style="color: #f6f6f6;"><i class="uk-icon-user"></i>{{ __user__.name }}</a>
                             <div class="uk-dropdown uk-dropdown-navbar">
                                 <ul class="uk-nav uk-nav-navbar">
                                     <li><a href="/user/{{ __user__.id }}" style="color: #0c7cf6;"><i class="uk-icon-cog"></i>设置</a></li>
-                                    <li><a href="/signout"><i class="uk-icon-sign-out"></i>登出</a></li>
+                                    <li><a href="/signout" style="color: #0c7cf6;"><i class="uk-icon-sign-out"></i>登出</a></li>
                                 </ul>
                             </div>
                         </li>
