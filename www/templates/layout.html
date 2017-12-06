@@ -28,9 +28,6 @@
         {#        background-image:url("../static/img/timg.png");#}
         background-color: #00a8e6;
     }
-    .home-nav{
-        color:black;
-    }
     .home-footer{
         text-align: center;
         min-height: 15px;
@@ -55,10 +52,10 @@
 {#        <h2 style="background-image: url('../static/img/timg.png')">weely 之家</h2>#}
         <nav class="home-header uk-navbar-attached uk-margin-bottom ">
             <div class="uk-container uk-container-center ">
-                <a href="/" class="uk-navbar-brand home-nav"><i class="uk-icon-home"></i>首页</a>
+                <a href="/" class="uk-navbar-brand" style="color: #f6f6f6;"><i class="uk-icon-home"></i>首页</a>
                 <ul class="uk-navbar-nav">
-                    <li data-url="blogs"><a href="/" style="color:black;"><i class="uk-icon-tag"></i>随笔</a></li>
-    {#                <li><a target="_blank" class="home-nav" href="#"><i class="uk-icon-book"></i>教程</a></li>#}
+                    <li data-url="blogs"><a href="/" style="color: #0c7cf6;"><i class="uk-icon-tag"></i>随笔</a></li>
+{#                    <li><a target="_blank" style="color: #f6f6f6;" href="#"><i class="uk-icon-book"></i>教程</a></li>#}
     {#                <li><a target="_blank" href="https://github.com/weely/webapp-python"><i class="uk-icon-code"></i>源码</a></li>#}
                 </ul>
                 <div class="uk-navbar-flip">
@@ -68,14 +65,14 @@
                             <a href="#0"  style="color:black;"><i class="uk-icon-user"></i>{{ __user__.name }}</a>
                             <div class="uk-dropdown uk-dropdown-navbar">
                                 <ul class="uk-nav uk-nav-navbar">
-                                    <li><a href="/user/{{ __user__.id }}"><i class="uk-icon-cog"></i>设置</a></li>
+                                    <li><a href="/user/{{ __user__.id }}" style="color: #0c7cf6;"><i class="uk-icon-cog"></i>设置</a></li>
                                     <li><a href="/signout"><i class="uk-icon-sign-out"></i>登出</a></li>
                                 </ul>
                             </div>
                         </li>
                     {% else %}
-                        <li><a href="/signin"><i class="uk-icon-sign-in"></i>登录</a></li>
-                        <li><a href="/register"><i class="uk-icon-register"></i>注册</a></li>
+                        <li><a href="/signin" style="color: #e6e7e4;"><i class="uk-icon-sign-in"></i>登录</a></li>
+                        <li><a href="/register" style="color: #e6e7e4;"><i class="uk-icon-register"></i>注册</a></li>
                     {% endif %}
                     </ul>
                 </div>

@@ -320,10 +320,10 @@ async def api_user_edit(id, *, email, name, password):
     user.password = hashlib.sha1(sha1_passwd.encode('utf-8')).hexdigest()
     await user.update()
     for comment in comments:
-        comment.user_image = "/static/img/{}".format(filename)
+        comment.user_name = name
         await comment.update()
     for blog in blogs:
-        blog.user_image = "/static/img/{}".format(filename)
+        blog.user_name = name
         await  blog.update()
     r = web.Response()
     r.set_cookie(COOKIE_NAME, user2cookie(user,86400), max_age=86400, httponly=True)
