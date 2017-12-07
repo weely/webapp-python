@@ -379,15 +379,46 @@ if (typeof(Vue)!=='undefined') {
         props:{
             has_previous:Boolean,
             has_next: Boolean,
-            page_index: Number
+            page_index: Number,
+            page_count: Number
         },
-        template: '<div><ul class="uk-pagination">' +
+        template: '<div><ul class="uk-pagination uk-pagination-right">' +
                 '<li v-if="! has_previous" class="uk-disabled"><span><i class="uk-icon-angle-double-left"></i></span></li>' +
-                '<li v-if="has_previous"><a v-on:click="\'gotoPage(\' + (page_index-1) + \')\'" href="#0"><i class="uk-icon-angle-double-left"></i></a></li>' +
-                '<li class="uk-active"><span v-text="page_index"></span></li>' +
+                '<li v-if="has_previous"><a v-on:click="gotoPage(page_index-1)" href="#0"><i class="uk-icon-angle-double-left"></i></a></li>' +
+
+            '<template v-if="page_count<=5">'+
+                '<li v-for="n in (page_count)" v-if="n !== page_index"><a v-on:click="gotoPage(n)"><span v-text="n"></span></a></li>' +
+                '<li v-else-if="n === page_index" class="uk-active"><span v-text="page_index"></span></li>' +
+            '</template>' +
+            '<template v-else-if="page_count>5">' +
+                '<template v-if="page_index<=4">' +
+                    '<li v-for="n in 5" v-if="n !== page_index"><a v-on:click="gotoPage(n)"><span v-text="n"></span></a></li>' +
+                    '<li v-else-if="n === page_index" class="uk-active"><span v-text="page_index"></span></li>' +
+                    '<li ><span>...</span></li>' +
+                '</template>' +
+
+                '<template v-else-if="(page_index + 4) < page_count">' +
+                    '<li><span>...</span></li>' +
+                    '<li v-for="n in (page_index + 2)" v-if="n > page_index-3 && n !== page_index"><a v-on:click="gotoPage(n)"><span v-text="n"></span></a></li>' +
+                    '<li v-else-if="n === page_index" class="uk-active"><span v-text="page_index"></span></li>' +
+                    '<li><span>...</span></li>' +
+                '</template>' +
+                '<template v-else-if="(page_index + 4) >= page_count">' +
+                    '<li ><span>...</span></li>' +
+                    '<li v-for="n in page_count" v-if="n !== page_index && n>page_count-5"><a v-on:click="gotoPage(n)"><span v-text="n"></span></a></li>' +
+                    '<li v-else-if="n === page_index" class="uk-active"><span v-text="page_index"></span></li>' +
+                '</template>' +
+            '</template>' +
                 '<li v-if="! has_next" class="uk-disabled"><span><i class="uk-icon-angle-double-right"></i></span></li>' +
-                '<li v-if="has_next"><a v-on:click="\'gotoPage(\' + (page_index +1) + \')\'" href="#0"><i class="uk-icon-angle-double-right"></i></a></li>' +
-            '</ul></div>'
+                '<li v-if="has_next"><a v-on:click="gotoPage(page_index+1)" href="#0"><i class="uk-icon-angle-double-right"></i></a></li>' +
+            '</ul></div>',
+        methods: {
+            gotoPage: function(i){
+                var r = parseQueryString();
+                r.page = i;
+                location.assign('?' + $.param(r))
+            }
+        }
     });
 }
 

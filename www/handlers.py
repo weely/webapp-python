@@ -71,7 +71,7 @@ def text2html(text):
 async def index(*, page='1'):
     page_index = get_page_index(page)
     num = await Blog.findNumber('count(id)')
-    page = Page(num, page_index)
+    page = Page(num, page_index, page_size=5)
     if num == 0:
         blogs = []
     else:
@@ -195,7 +195,7 @@ async def user_img_edit(id, request):
 
 @get('/manage/')
 def manage():
-    return 'redirect:/manage/comments'
+    return 'redirect:/manage/blogs'
 
 @get('/manage/comments')
 def manage_comments(*, page='1'):

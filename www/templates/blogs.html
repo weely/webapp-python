@@ -2,8 +2,26 @@
 
 
 {% block title %}随 笔{% endblock %}
+{% block beforehead %}
+    <script>
+        $(function(){
+            var vm = new Vue({
+                el: "#vm",
+                data: {
+                    page: {
+                        page_index: {{ page.page_index }},
+                        has_next: true ? '{{ page.has_next }}' == 'True' : false,
+                        has_previous: true ? '{{ page.has_previous }}' == 'True' : false,
+                        page_count: {{ page.page_count }}
+                    }
+                },
+            });
+            $('#vm').show();
+        });
+    </script>
+{% endblock %}
 {% block content %}
-<div class="uk-width-medium-3-4">
+<div id="vm" class="uk-width-medium-3-4">
     {% for blog in blogs %}
     <article class="uk-article">
         <h2><a href="/blog/{{ blog.id }}">{{ blog.name }}</a></h2>
@@ -17,7 +35,7 @@
             <p class="uk-article-meta">您暂未发表日志，请发表日志</p>
         </article>
     {% endfor %}
-    <pagination v-bind="{{ page }}"></pagination>
+    <pagination v-bind="page"></pagination>
 </div>
 
 <div class="uk-width-medium-1-4">
