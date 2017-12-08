@@ -385,7 +385,6 @@ if (typeof(Vue)!=='undefined') {
         template: '<div><ul class="uk-pagination uk-pagination-right">' +
                 '<li v-if="! has_previous" class="uk-disabled"><span><i class="uk-icon-angle-double-left"></i></span></li>' +
                 '<li v-if="has_previous"><a v-on:click="gotoPage(page_index-1)" href="#0"><i class="uk-icon-angle-double-left"></i></a></li>' +
-
             '<template v-if="page_count<=5">'+
                 '<li v-for="n in (page_count)" v-if="n !== page_index"><a v-on:click="gotoPage(n)">{{n}}</a></li>' +
                 '<li v-else-if="n === page_index" class="uk-active"><span v-text="page_index"></span></li>' +
@@ -396,7 +395,6 @@ if (typeof(Vue)!=='undefined') {
                     '<li v-else-if="n === page_index" class="uk-active"><span v-text="page_index"></span></li>' +
                     '<li ><span>...</span></li>' +
                 '</template>' +
-
                 '<template v-else-if="(page_index + 4) < page_count">' +
                     '<li><span>...</span></li>' +
                     '<li v-for="n in (page_index + 2)" v-if="n > page_index-3 && n !== page_index"><a v-on:click="gotoPage(n)">{{n}}</span></a></li>' +

@@ -4,11 +4,11 @@
 import re, time, json, logging, hashlib, base64, asyncio
 from aiohttp import web
 import os
-from coroweb import get, post
-from apis import APIValueError, APIResourceNotFoundError, APIError, APIPermissionError, Page
-from models import User, Comment, Blog, next_id
-from config import configs
-import markdown2
+from www.coroweb import get, post
+from www.apis import APIValueError, APIResourceNotFoundError, APIError, APIPermissionError, Page
+from www.models import User, Comment, Blog, next_id
+from www.config import configs
+from www import markdown2
 
 COOKIE_NAME = 'awesession'
 _COOKIE_KEY = configs.session.secret

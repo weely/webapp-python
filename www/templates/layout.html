@@ -26,7 +26,7 @@
     }
     .home-header{
         {#        background-image:url("../static/img/timg.png");#}
-        background-color: #00a8e6;
+{#        background-color: #00a8e6;#}
     }
     .home-footer{
         text-align: center;
@@ -48,31 +48,37 @@
     {% block beforehead %} <!-- before head--> {% endblock %}
 </head>
 <body class="uk-height-1-1 home-body">
-    <div>
-{#        <h2 style="background-image: url('../static/img/timg.png')">weely 之家</h2>#}
-        <nav class="home-header uk-navbar-attached uk-margin-bottom ">
-            <div class="uk-container uk-container-center ">
-                <a href="/" class="uk-navbar-brand" style="color: #f6f6f6;"><i class="uk-icon-home"></i>首页</a>
-                <ul class="uk-navbar-nav">
-                    <li data-url="blogs"><a href="/" style="color: #0c7cf6;"><i class="uk-icon-tag"></i>随笔</a></li>
-{#                    <li><a target="_blank" style="color: #f6f6f6;" href="#"><i class="uk-icon-book"></i>教程</a></li>#}
-    {#                <li><a target="_blank" href="https://github.com/weely/webapp-python"><i class="uk-icon-code"></i>源码</a></li>#}
+    <div class="home-header">
+        <div class="uk-container uk-container-center" >
+            <h2 style="margin-top: 10px">weely 的小站</h2>
+        </div>
+        <nav class="uk-navbar uk-container uk-container-center " style="background: #02d3e6;padding-left: 0;padding-right: 0;">
+            <div class="">
+                <ul class="uk-navbar-nav" style="overflow:hidden">
+                    <li>
+                    <a href="/" class="uk-navbar-brand" style="color: #000000;"><i class="uk-icon-home"></i>首页</a>
+                    </li>
+                    <li data-url="blogs"><a href="/" style="color: #000000;"><i class="uk-icon-tag"></i>随笔</a></li>
+{#                    <li data-url="blogs"><a target="_blank"  href="#" style="color: #000000;"><i class="uk-icon-book"></i>教程</a></li>#}
+{#                    <li><a target="_blank" href="https://github.com/weely/webapp-python"><i class="uk-icon-code"></i>源码</a></li>#}
+                    <li ><a href="" style="color: #000000;"><i class="uk-icon-info"></i>关于本站</a></li>
+
                 </ul>
                 <div class="uk-navbar-flip">
-                    <ul class="uk-navbar-nav">
+                    <ul class="uk-navbar-nav" >
                     {% if __user__  %}
                         <li class="uk-parent" data-uk-dropdown>
-                            <a href="#0"  style="color: #f6f6f6;"><i class="uk-icon-user"></i>{{ __user__.name }}</a>
+                            <a href="#0"  ><i class="uk-icon-user"></i>{{ __user__.name }}</a>
                             <div class="uk-dropdown uk-dropdown-navbar">
                                 <ul class="uk-nav uk-nav-navbar">
-                                    <li><a href="/user/{{ __user__.id }}" style="color: #0c7cf6;"><i class="uk-icon-cog"></i>设置</a></li>
-                                    <li><a href="/signout" style="color: #0c7cf6;"><i class="uk-icon-sign-out"></i>登出</a></li>
+                                    <li><a href="/user/{{ __user__.id }}" style="color: #000000;"><i class="uk-icon-cog"></i>设置</a></li>
+                                    <li><a href="/signout" style="color: #000000;"><i class="uk-icon-sign-out"></i>登出</a></li>
                                 </ul>
                             </div>
                         </li>
                     {% else %}
-                        <li><a href="/signin" style="color: #e6e7e4;"><i class="uk-icon-sign-in"></i>登录</a></li>
-                        <li><a href="/register" style="color: #e6e7e4;"><i class="uk-icon-register"></i>注册</a></li>
+                        <li><a href="/signin" style="color: #000000;"><i class="uk-icon-sign-in"></i>登录</a></li>
+                        <li><a href="/register" style="color: #000000;"><i class="uk-icon-users"></i>注册</a></li>
                     {% endif %}
                     </ul>
                 </div>

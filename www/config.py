@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 
-import config_default
+from www import config_default
 
 class Dict(dict):
     '''
