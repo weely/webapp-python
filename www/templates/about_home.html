@@ -1,7 +1,6 @@
 {% extends 'layout.html' %}
 
-
-{% block title %}随 笔{% endblock %}
+{% block title %}关于本站{% endblock %}
 {% block beforehead %}
     <style>
     .left-cal{
@@ -66,48 +65,16 @@
                     calendars: datas[4]
                 }
             });
-            var vm = new Vue({
-                el: "#vm",
-                data: {
-                    page: {
-                        page_index: {{ page.page_index }},
-                        has_next: true ? '{{ page.has_next }}' == 'True' : false,
-                        has_previous: true ? '{{ page.has_previous }}' == 'True' : false,
-                        page_count: {{ page.page_count }}
-                    }
-                },
-            });
-            $('#vm').show();
         });
     </script>
 {% endblock %}
 {% block content %}
-<div id="vm" class="uk-width-medium-3-4">
-    {% for blog in blogs %}
-    <article class="uk-article">
-        <h2><a href="/blog/{{ blog.id }}">{{ blog.name }}</a></h2>
-        <p class="uk-article-meta">发表于{{ blog.created_at|datetime  }}</p>
-        <p>{{ blog.summary }}</p>
-        <p><a href="/blog/{{ blog.id }}">继续阅读<i class="uk-icon-angle-double-right"></i></a></p>
-    </article>
-    <hr class="uk-article-divider">
-    {% else %}
-        <article class="uk-article">
-            <p class="uk-article-meta">您暂未发表日志，请发表日志</p>
-        </article>
-    {% endfor %}
-    <pagination v-bind="page"></pagination>
+<div class="uk-width-medium-3-4">
+    <h2>关于本站</h2>
+    <hr>
+    联系邮箱：lm220930@163.com
 </div>
-
-<div class="uk-width-medium-1-4">
-    {% if __user__ %}
-    <div class="uk-panel uk-panel-box">
-        <div  class="uk-text-center">
-            <img class="uk-border-cricle" width=100% height=100% style="" src="{{ __user__.image }}">
-            <h3>{{ __user__.name }}的空间</h3>
-        </div>
-    </div>
-    {% endif %}
+<div id="calendar" class="uk-width-medium-1-4">
     <div id="calendar">
         <div>
             <div class="uk-align-left left-cal"><a><i class="uk-icon-arrow-left"></i></a></div>
@@ -134,8 +101,6 @@
         <h3 class="uk-panel-title">友情链接</h3>
         <ul class="uk-list uk-list-line">
             <li><i class="uk-icon-thumbs-o-up"></i><a target="_blank" href="#">读书</a></li>
-{#            <li><i class="uk-icon-thumbs-o-up"></i><a target="_blank" href="#">Python教程</a></li>#}
-{#            <li><i class="uk-icon-thumbs-o-up"></i><a href="#" target="_blank">Git教程</a></li>#}
         </ul>
     </div>
 </div>

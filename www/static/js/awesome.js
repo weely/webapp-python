@@ -176,11 +176,45 @@ function toSmartDate(timestamp) {
     return s;
 }
 
+function getCalendar(){
+    var date = new Date(),
+        year = date.getFullYear(),
+        month = date.getMonth()+1,
+        day = date.getDate(),
+        week = date.getDay(),
+        isLeap = year%4===0 && year%100!=0 || year % 4 === 0 ? true : false,
+        days = month === 2 ? (isLeap ? 29 : 28) : ($.inArray(month,[1,3,5,7,8,10,12])!=-1 ? 31: 30),
+        firstWeek = (week - day % 7 + 8) % 7,
+        lastMonthDays = (month-1) === 2 ? (isLeap ? 29 : 28) : ($.inArray(month-1,[1,3,5,7,8,10,12])!=-1 ? 31: 30),
+        calendars = new Array(),
+        daylist = new Array(),
+        m=0,
+        n=0,
+        rows = (firstWeek+days-1)%7==0 ? (firstWeek+days-1)/7+1 : (firstWeek+days-1)/7+2;
+    for (var i=firstWeek-1;i>=0;i--){
+        daylist[i] = lastMonthDays--;
+    }
+    for (var i=firstWeek;i<days+firstWeek;i++){
+        daylist[i] = ++n;
+    }
+    n=0;
+    for (var i=0; i<rows; i++) {
+        calendars[i] = new Array();
+        for (var j=0; j<7; j++){
+            calendars[i][j] = daylist[n] === undefined ? ++m : daylist[n];
+            n++;
+        }
+    }
+    // console.log(days+"--"+firstWeek+"-"+daylist, calendars);
+    return [year,month,day,week,calendars];
+}
+
 $(function() {
     $('.x-smartdate').each(function() {
         $(this).removeClass('x-smartdate').text(toSmartDate($(this).attr('date')));
     });
 });
+
 
 // JS Template:
 

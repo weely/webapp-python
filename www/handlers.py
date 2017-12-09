@@ -82,6 +82,13 @@ async def index(*, page='1'):
         'blogs': blogs
     }
 
+@get('/about/home')
+async def about_home():
+    return {
+        '__template__': 'about_home.html',
+
+    }
+
 @get('/blog/{id}')
 async def get_blog(id):
     blog = await Blog.find(id)
