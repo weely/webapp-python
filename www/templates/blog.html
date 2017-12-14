@@ -19,55 +19,39 @@
         text-align: right;
         display: inline;
         width:20%;
+        padding-right: 10px;
     }
     </style>
 <script>
-    function getCalendar(){
-        var date = new Date(),
-            year = date.getFullYear(),
-            month = date.getMonth()+1,
-            day = date.getDate(),
-            week = date.getDay(),
-            isLeap = year%4===0 && year%100!=0 || year % 4 === 0 ? true : false,
-            days = month === 2 ? (isLeap ? 29 : 28) : ($.inArray(month,[1,3,5,7,8,10,12])!=-1 ? 31: 30),
-            firstWeek = (week - day % 7 + 8) % 7,
-            lastMonthDays = (month-1) === 2 ? (isLeap ? 29 : 28) : ($.inArray(month-1,[1,3,5,7,8,10,12])!=-1 ? 31: 30),
-            calendars = new Array(),
-            daylist = new Array(),
-            m=0,
-            n=0,
-            rows = (firstWeek+days-1)%7==0 ? (firstWeek+days-1)/7+1 : (firstWeek+days-1)/7+2;
-        for (var i=firstWeek-1;i>=0;i--){
-            daylist[i] = lastMonthDays--;
-        }
-        for (var i=firstWeek;i<days+firstWeek;i++){
-            daylist[i] = ++n;
-        }
-        n=0;
-        for (var i=0; i<rows; i++) {
-            calendars[i] = new Array();
-            for (var j=0; j<7; j++){
-                calendars[i][j] = daylist[n] === undefined ? ++m : daylist[n];
-                n++;
-            }
-        }
-        return [year,month,day,week,calendars];
-    }
     var comment_url = '/api/blogs/{{ blog.id }}/comments';
 
     $(function () {
-        var datas = getCalendar();
-        var calendar = new Vue({
-            el: "#calendar",
-            data: {
-                weeks:["日", "一", "二", "三", "四", "五", "六"],
-                year: datas[0],
-                month: datas[1],
-                day: datas[2],
-                week: datas[3],
-                calendars: datas[4]
-            }
-        });
+        var today = new Date();
+            var calendar = new Vue({
+                el: "#calendar",
+                data: {
+                    weeks:["日", "一", "二", "三", "四", "五", "六"],
+                    year: today.getFullYear(),
+                    month: today.getMonth(),
+                    day: today.getDate(),
+                    week: today.getDay(),
+                    calendars: getCalendar()
+                },
+                methods: {
+                    pre_month: function(){
+                        this.year = this.month == 0 ? this.year-1 : this.year;
+                        this.month = this.month == 0 ? 11 : this.month-1;
+                        this.day = 1;
+                        this.calendars = getCalendar(new Date(this.year,this.month,this.day));
+                    },
+                    next_month: function(){
+                        this.year = this.month == 11 ? this.year+1 : this.year;
+                        this.month = this.month == 11 ? 0 : this.month+1;
+                        this.day = 1;
+                        this.calendars = getCalendar(new Date(this.year,this.month,this.day));
+                    }
+                }
+            });
         var $form = $('#form-comment')
         $form.submit(function (e) {
             e.preventDefault();
@@ -151,11 +135,11 @@
             <h3>{{ blog.user_name }}的日志</h3>
         </div>
     </div>
-    <div id="calendar">
+    <div id="calendar" style="padding-top: 10px;">
         <div>
-            <div class="uk-align-left left-cal"><a><i class="uk-icon-arrow-left"></i></a></div>
-            <div class="uk-align-center center-cal" v-text="year+'年'+month+'月'"></div>
-            <div class="uk-align-right right-cal"><a><i class="uk-icon-arrow-right "></i></a></div>
+            <div class="uk-align-left left-cal"><a @click="pre_month" href="#0"><i class="uk-icon-arrow-left"></i></a></div>
+            <div class="center-cal" style="" v-text="year+'年'+(month+1)+'月'"></div>
+            <div class="uk-align-right right-cal"><a @click="next_month" href="#0"><i class="uk-icon-arrow-right "></i></a></div>
         </div>
         <div class="calendar-body">
             <table class="uk-table" title="calendar">
@@ -166,7 +150,7 @@
                 </thead>
                 <tbody>
                     <tr v-for="rows in calendars">
-                        <td v-for="item in rows" v-if="day===item" style="color:blue;"><i v-text="item"></i></td>
+                        <td v-for="item in rows" v-if="item === -1" style="text-decoration:underline;"><i v-text="day"></i></td>
                         <td v-else v-text="item"></td>
                     </tr>
                 </tbody>
