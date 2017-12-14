@@ -3,52 +3,10 @@
 
 {% block title %}随 笔{% endblock %}
 {% block beforehead %}
-    <style>
-    .left-cal{
-        text-align: left;
-        display: inline;
-        width:20%;
-    }
-    .center-cal{
-        display: inline;
-        width:60%;
-        text-align: center;
-        margin: 0;
-    }
-    .right-cal{
-        text-align: right;
-        display: inline;
-        width:20%;
-        padding-right: 10px;
-    }
-    </style>
     <script>
         $(function(){
-            var today = new Date();
             var calendar = new Vue({
                 el: "#calendar",
-                data: {
-                    weeks:["日", "一", "二", "三", "四", "五", "六"],
-                    year: today.getFullYear(),
-                    month: today.getMonth(),
-                    day: today.getDate(),
-                    week: today.getDay(),
-                    calendars: getCalendar()
-                },
-                methods: {
-                    pre_month: function(){
-                        this.year = this.month == 0 ? this.year-1 : this.year;
-                        this.month = this.month == 0 ? 11 : this.month-1;
-                        this.day = 1;
-                        this.calendars = getCalendar(new Date(this.year,this.month,this.day));
-                    },
-                    next_month: function(){
-                        this.year = this.month == 11 ? this.year+1 : this.year;
-                        this.month = this.month == 11 ? 0 : this.month+1;
-                        this.day = 1;
-                        this.calendars = getCalendar(new Date(this.year,this.month,this.day));
-                    }
-                }
             });
             var vm = new Vue({
                 el: "#vm",
@@ -92,28 +50,7 @@
         </div>
     </div>
     {% endif %}
-    <div id="calendar" style="padding-top: 10px;">
-        <div>
-            <div class="uk-align-left left-cal"><a @click="pre_month" href="#0"><i class="uk-icon-arrow-left"></i></a></div>
-            <div class="center-cal" style="" v-text="year+'年'+(month+1)+'月'"></div>
-            <div class="uk-align-right right-cal"><a @click="next_month" href="#0"><i class="uk-icon-arrow-right "></i></a></div>
-        </div>
-        <div class="calendar-body">
-            <table class="uk-table" title="calendar">
-                <thead>
-                    <tr>
-                        <th v-for="item in weeks" v-text="item"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="rows in calendars">
-                        <td v-for="item in rows" v-if="item === -1" style="text-decoration:underline;"><i v-text="day"></i></td>
-                        <td v-else v-text="item"></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
+    <div id="calendar" style="padding-top: 10px;"><calendar></calendar></div>
     <div class="uk-panel uk-panel-header">
         <h3 class="uk-panel-title">友情链接</h3>
         <ul class="uk-list uk-list-line">

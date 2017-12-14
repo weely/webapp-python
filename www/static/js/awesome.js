@@ -455,6 +455,52 @@ if (typeof(Vue)!=='undefined') {
             }
         }
     });
+    Vue.component('calendar', {
+        template: '<div>'+
+                '<table class="uk-table" title="calendar">' +
+                    '<thead>' +
+                        '<tr><th style="text-align:center;"><div><a @click="pre_month" href="#0"><i class="uk-icon-arrow-left"></i></a></div></th>' +
+                        '<th colspan="5" style="text-align:center;">{{ year + "年" + (month+1) + "月"}}</th>' +
+                        '<th style="text-align:center;"><div><a @click="next_month" href="#0"><i class="uk-icon-arrow-right "></i></a></div></th></tr>' +
+                        '<tr><th v-for="w in weeks" style="text-align:center;">{{ w }}</th></tr>' +
+                    '</thead>' +
+                    '<tbody>'+
+                        '<tr v-for="rows in calendar">' +
+                            '<td v-for="item in rows" v-if="item === -1" style="text-align:center;text-decoration:underline;color: blue;"><i>{{ date }}</i></td>' +
+                            '<td v-else style="text-align: center;">{{ item }}</td>' +
+                        '</tr>' +
+                    '</tbody>' +
+                '</table>' +
+            '</div>',
+        data: function(){
+            var today = new Date();
+            return {
+                weeks: ['日', '一', '二', '三', '四', '五', '六'],
+                year: today.getFullYear(),
+                month: today.getMonth(),
+                date: today.getDate(),
+                week: today.getDay(),
+                calendar: getCalendar()
+            }
+        },
+        methods: {
+            pre_month: function(){
+                var today = new Date();
+                this.year = this.month == 0 ? this.year-1 : this.year;
+                this.month = this.month == 0 ? 11 : this.month-1;
+                this.date = this.year===today.getFullYear() && this.month === today.getMonth() ? today.getDate() : 1;
+                this.calendar = getCalendar(new Date(this.year,this.month,this.date));
+                console.log(this.calendar)
+            },
+            next_month: function(){
+                var today = new Date();
+                this.year = this.month == 11 ? this.year+1 : this.year;
+                this.month = this.month == 11 ? 0 : this.month+1;
+                this.date = this.year===today.getFullYear() && this.month === today.getMonth() ? today.getDate() : 1;
+                this.calendar = getCalendar(new Date(this.year,this.month,this.date));
+            }
+        }
+    });
 }
 
 function redirect(url) {
