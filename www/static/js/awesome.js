@@ -457,17 +457,17 @@ if (typeof(Vue)!=='undefined') {
     });
     Vue.component('calendar', {
         template: '<div>'+
-                '<table class="uk-table" title="calendar">' +
+                '<table class="uk-table calendar" title="calendar">' +
                     '<thead>' +
-                        '<tr><th style="text-align:center;"><div><a @click="pre_month" href="#0"><i class="uk-icon-arrow-left"></i></a></div></th>' +
-                        '<th colspan="5" style="text-align:center;">{{ year + "年" + (month+1) + "月"}}</th>' +
-                        '<th style="text-align:center;"><div><a @click="next_month" href="#0"><i class="uk-icon-arrow-right "></i></a></div></th></tr>' +
-                        '<tr><th v-for="w in weeks" style="text-align:center;">{{ w }}</th></tr>' +
+                        '<tr><th><div><a @click="pre_month" href="#0"><i class="uk-icon-arrow-left"></i></a></div></th>' +
+                        '<th colspan="5">{{ year + "年" + (month+1) + "月"}}</th>' +
+                        '<th><div><a @click="next_month" href="#0"><i class="uk-icon-arrow-right "></i></a></div></th></tr>' +
+                        '<tr><th v-for="w in weeks">{{ w }}</th></tr>' +
                     '</thead>' +
                     '<tbody>'+
                         '<tr v-for="rows in calendar">' +
-                            '<td v-for="item in rows" v-if="item === -1" style="text-align:center;text-decoration:underline;color: blue;"><i>{{ date }}</i></td>' +
-                            '<td v-else style="text-align: center;">{{ item }}</td>' +
+                            '<td v-for="item in rows" v-if="item === -1" style="text-decoration:underline;color: blue;"><i>{{ date }}</i></td>' +
+                            '<td v-else>{{ item }}</td>' +
                         '</tr>' +
                     '</tbody>' +
                 '</table>' +

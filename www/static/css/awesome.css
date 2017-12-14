@@ -16,3 +16,7 @@ a:hover, a:active {
     display: none;
     margin-bottom: 15px;
 }
+
+.calendar th,td {
+    text-align:center;
+}
