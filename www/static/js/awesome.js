@@ -176,8 +176,8 @@ function toSmartDate(timestamp) {
     return s;
 }
 
-function getCalendar(){
-    var date = new Date(),
+function getCalendar(time){
+    var date = arguments[0] && arguments[0] instanceof Date ? arguments[0] : new Date(),
         year = date.getFullYear(),
         month = date.getMonth()+1,
         day = date.getDate(),
@@ -190,12 +190,15 @@ function getCalendar(){
         daylist = new Array(),
         m=0,
         n=0,
-        rows = (firstWeek+days-1)%7==0 ? (firstWeek+days-1)/7+1 : (firstWeek+days-1)/7+2;
+        rows = (firstWeek+days-1)%7==0 ? (firstWeek+days-1)/7+1 : (firstWeek+days-1)/7;
     for (var i=firstWeek-1;i>=0;i--){
         daylist[i] = lastMonthDays--;
     }
     for (var i=firstWeek;i<days+firstWeek;i++){
         daylist[i] = ++n;
+        if (i===day+firstWeek-1){
+            daylist[i] = -1;
+        }
     }
     n=0;
     for (var i=0; i<rows; i++) {
@@ -206,7 +209,7 @@ function getCalendar(){
         }
     }
     // console.log(days+"--"+firstWeek+"-"+daylist, calendars);
-    return [year,month,day,week,calendars];
+    return calendars;
 }
 
 $(function() {
