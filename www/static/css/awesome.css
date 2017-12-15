@@ -20,3 +20,7 @@ a:hover, a:active {
 .calendar th,td {
     text-align:center;
 }
+
+.table-left th ,td {
+    text-align:left;
+}

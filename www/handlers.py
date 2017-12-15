@@ -339,6 +339,15 @@ async def api_user_edit(id, *, email, name, password):
     r.body=json.dumps(user, ensure_ascii=False).encode('utf-8')
     return r
 
+@post('/api/manage/user/{id}/admin')
+async def api_manage_user_admin(id, *, admin):
+    user = await User.find(id)
+    user.admin = admin
+    await user.update()
+    # users = User.findAll()
+    # r = web.Response()
+    return dict({"msg": 'update user info successful!'})
+
 @get('/api/blogs/{id}')
 async def api_get_blog(*, id):
     blog = await Blog.find(id)
