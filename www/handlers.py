@@ -103,6 +103,28 @@ async def get_blog(id):
         'comments': comments
     }
 
+@get('/note')
+async def get_note():
+    file = os.path.join(os.path.split(__file__)[0], r'static\\python_study.md')
+    if os.path.exists(file):
+        update_time = os.path.getmtime(file)
+        with open(file, 'r', encoding='utf-8', errors='ignore') as f:
+            data = f.read()
+            html = markdown2.markdown(data)
+            res = {
+                "update_time": update_time,
+                "html": html
+            }
+    else:
+        res = {
+            "update_time": 0,
+            "html": None
+        }
+    return {
+        '__template__': 'note.html',
+        'note': res
+    }
+
 @get('/register')
 def register():
     return {
@@ -279,7 +301,7 @@ async def api_delete_comments(id, request):
 async def api_get_users(*, page='1'):
     page_index = get_page_index(page)
     num = await User.findNumber('count(id)')
-    print(num, type(num))
+    # print(num, type(num))
     p = Page(num, page_index)
     if num == 0:
         return dict(page=p, users=())

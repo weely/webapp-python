@@ -42,7 +42,6 @@
         background-color: rgba(255, 254, 250, 0.91);
         padding-top: 25px;
         padding-bottom: 25px;
-
     }
 </style>
     {% block beforehead %} <!-- before head--> {% endblock %}
@@ -55,14 +54,11 @@
         <nav class="uk-navbar uk-container uk-container-center " style="background: #02d3e6;padding-left: 0;padding-right: 0;">
             <div class="">
                 <ul class="uk-navbar-nav" style="overflow:hidden">
-                    <li>
-                    <a href="/" class="uk-navbar-brand" style="color: #000000;"><i class="uk-icon-home"></i>首页</a>
-                    </li>
+                    <li><a href="/" class="uk-navbar-brand" style="color: #000000;"><i class="uk-icon-home"></i>首页</a></li>
                     <li data-url="blogs"><a href="/" style="color: #000000;"><i class="uk-icon-tag"></i>随笔</a></li>
-{#                    <li data-url="blogs"><a target="_blank"  href="#" style="color: #000000;"><i class="uk-icon-book"></i>教程</a></li>#}
+                    <li data-url="note"><a href="/note" style="color: #000000;"><i class="uk-icon-book"></i>小结</a></li>
 {#                    <li><a target="_blank" href="https://github.com/weely/webapp-python"><i class="uk-icon-code"></i>源码</a></li>#}
-                    <li ><a href="/about/home" style="color: #000000;"><i class="uk-icon-info"></i>关于本站</a></li>
-
+                    <li data-url="about"><a href="/about/home" style="color: #000000;"><i class="uk-icon-info"></i>关于本站</a></li>
                 </ul>
                 <div class="uk-navbar-flip">
                     <ul class="uk-navbar-nav" >

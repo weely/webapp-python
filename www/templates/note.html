@@ -1,0 +1,46 @@
+{% extends 'layout.html' %}
+
+{% block title %}小 结{% endblock %}
+
+{% block beforehead %}
+<script>
+    $(function () {
+        var calendar = new Vue({
+            el: "#calendar",
+        });
+    });
+</script>
+{% endblock %}
+
+{% block content %}
+
+<div class="uk-width-3-4">
+    <article class="uk-article">
+        <h2>python 学习小结</h2>
+        <p class="uk-article-meta">更新时间{{ note.update_time|datetime }}</p>
+        <hr>
+        <div class="uk-article-lead">
+            {{ note.html|safe }}
+        </div>
+    </article>
+</div>
+
+<div class="uk-width-medium-1-4">
+    <div class="uk-panel uk-panel-box">
+        <div class="uk-text-center">
+            <img class="uk-border-cricle" width=100% height=100% style="" src="/static/img/timg.png">
+            <h3>weely 的小站</h3>
+        </div>
+    </div>
+    <div id="calendar"><calendar></calendar></div>
+    <div class="uk-panel uk-panel-header">
+        <h3 class="uk-panel-title">友情链接</h3>
+        <ul class="uk-list uk-list-line">
+{#            <li><i class="uk-icon-link"></i><a href="#">编程</a></li>#}
+{#            <li><i class="uk-icon-link"></i><a href="#">思考</a></li>#}
+            <li><i class="uk-icon-link"></i><a href="#">读书</a></li>
+        </ul>
+    </div>
+</div>
+
+{% endblock %}

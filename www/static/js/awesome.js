@@ -568,6 +568,12 @@ $(function() {
     if (location.pathname === '/' || location.pathname.indexOf('/blog')===0) {
         $('li[data-url=blogs]').addClass('uk-active');
     }
+    if (location.pathname.indexOf('/note') === 0) {
+        $('li[data-url=note]').addClass('uk-active');
+    }
+    if (location.pathname === '/about/home') {
+        $('li[data-url=about]').addClass('uk-active');
+    }
 });
 
 function _display_error($obj, err) {
