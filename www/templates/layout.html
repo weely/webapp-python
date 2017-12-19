@@ -16,40 +16,43 @@
     <script src="/static/js/sticky.min.js"></script>
     <script src="/static/js/vue.js"></script>
     <script src="/static/js/awesome.js"></script>
-<style>
-    .home-body{
-{#        background-image:url("../static/img/timg.png");#}
-        background: #01e0e6;
-        clear:both;
-{#        background-size:100%,100%;#}
-{#        background-repeat:no-repeat;#}
-    }
-    .home-header{
-        {#        background-image:url("../static/img/timg.png");#}
-{#        background-color: #00a8e6;#}
-    }
-    .home-footer{
-        text-align: center;
-        min-height: 15px;
-        _height: 15px;
-        margin-top: 10px;
-        padding-top: 10px;
-        margin-bottom: 10px;
-        padding-bottom: 10px;
-        color: #333;
-    }
-    .home-content{
-        background-color: rgba(255, 254, 250, 0.91);
-        padding-top: 25px;
-        padding-bottom: 25px;
-    }
-</style>
+    <script>
+        function gotoTop(min_height){
+            $("#gotoTop").click(function(){
+                $('html,body').animate({scrollTop:0},700);
+{#                为返回顶部增加鼠标进入的反馈效果，用添加删除css类实现#}
+            }).hover(function(){
+                $(this).addClass("hover");
+            },function(){
+                $(this).removeClass("hover");
+            });
+            {#获取页面的最小高度，无传入值则默认为600像素#}
+            min_height ? min_height = min_height : min_height = 600;
+            {#为窗口的scroll事件绑定处理函数#}
+            $(window).scroll(function(){
+                {#获取窗口的滚动条的垂直位置#}
+                var s = $(window).scrollTop();
+                {#当窗口的滚动条的垂直位置大于页面的最小高度时，让返回顶部元素渐现，否则渐隐#}
+                if( s > min_height){
+                    $("#gotoTop").fadeIn(100);
+                } else {
+                    $("#gotoTop").fadeOut(200);
+                };
+            });
+        };
+        $(function(){
+            gotoTop($(window).height());
+        });
+    </script>
     {% block beforehead %} <!-- before head--> {% endblock %}
 </head>
 <body class="home-body">
+    <a id="gotoTop" class="goto-top" href="#">
+        <div class="stick"><i class="uk-icon-angle-double-up uk-icon-large"></i></div>
+    </a>
     <div class="home-header">
-        <div class="uk-container uk-container-center" >
-            <h2 style="margin-top: 10px">weely 的小站</h2>
+        <div class="uk-container uk-container-center">
+            <h2 style="margin: 30px">weely 的小站</h2>
         </div>
         <nav class="uk-navbar uk-container uk-container-center " style="background: #02d3e6;padding-left: 0;padding-right: 0;">
             <div class="">

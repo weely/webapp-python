@@ -2,6 +2,34 @@
  * custom css
  */
 
+.home-body{
+    /*background-image:url("../img/timg.png");*/
+    background: #01e0e6;
+    clear:both;
+    background-size:100%,100%;
+    background-repeat:no-repeat;
+}
+.home-header{
+    /*background-image:url("../img/timg.png");*/
+    /*background-color: #00a8e6;*/
+}
+.home-footer{
+    text-align: center;
+    min-height: 15px;
+    _height: 15px;
+    margin-top: 10px;
+    padding-top: 10px;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    color: #333;
+}
+.home-content{
+    background-color: rgba(255, 254, 250, 0.91);
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+
+
 a:hover, a:active {
     text-decoration: none;
 }
@@ -23,4 +51,29 @@ a:hover, a:active {
 
 .table-left th ,td {
     text-align:left;
+}
+
+.goto-top {
+    display: none;
+    opacity: .9;
+    z-index: 999999;
+    position: fixed;
+    bottom: 113px;
+    right: 5%;
+    margin-left: 40px;
+    width: 38.5px;
+    height: 38px;
+    border-radius: 3px;
+    cursor: pointer;
+    background-color: #f5f5f5;
+    border: 1px solid #0593d3;
+}
+.stick {
+    position: absolute;
+    left: 8px;
+    top: 2px;
+    width: 22.5px;
+    height: 34.4px;
+    display: block;
+    border-radius: 1px;
 }
