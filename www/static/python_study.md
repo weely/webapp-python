@@ -1,5 +1,16 @@
 https://devcenter.heroku.com/start
 
+### linux 下检查并配置ssh
+    1、登录Linux系统，打开终端，输入
+    2、执行sudo apt-get install openssh-server 安装ssh服务， 执行 sudo apt-get install openssh-client 安装客户端
+     （客户端用于远程连接服务端），如果出现问题，可重启ssh服务 sudo server ssh restart
+     测试使用： ssh -l username hostip
+        -l: 选项，注意是字母L
+        username: 远程用户名
+        hostip: 远程服务ip
+    linux执行sudo apt-get install ...出现unable to locate package解决方法：(提示的就是无法找到包)
+    执行sudo apt-get update  更新源就可以了
+
 ### python内置函数： https://docs.python.org/3/library/functions.html
 ### 开启shell
 	1、os.system(path)

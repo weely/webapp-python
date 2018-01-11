@@ -27,7 +27,7 @@
     height:100%;
 }
 .user-img-edit {
-    display: none;
+    display: block;
     position: absolute;
     width: 100%;
     background: rgba(34, 34, 34, 0.5);
@@ -41,19 +41,18 @@
     text-align: center;
 {#    filter: alpha(opacity:60);#}
 }
+.update-img-info{
+    color:gray;
+    display:inline;
+    margin-left: 10px;
+}
 </style>
 <script>
-    function show_img_edit(){
-        document.getElementById("img_edit_info").style.display = "block";
-    }
-    function hidden_img_edit(){
-        document.getElementById("img_edit_info").style.display = "none";
-    }
-
     $(function(){
         var vm = new Vue({
             el: '#vm',
             data: {
+                show: false,
                 img_src: '{{ user.image }}'
             },
             methods: {
@@ -103,12 +102,12 @@
                 <div class="uk-alert uk-alert-danger uk-hidden">
             </div>
             <div class="uk-form-row" style="text-align:center;">
-                <div class="user-img-panel" onmouseover="show_img_edit()" onmouseleave="hidden_img_edit()">
+                <div class="user-img-panel" @mouseover="show=!show" @mouseout="show=!show">
                     <img :src="img_src" class="user-img-show" @click="setImg">
                     <input type="file" class="user-img-file" id="upload_img" @change="changeImg" accept="image/gif,image/jpeg,image/jpg,image/png">
-                    <span id="img_edit_info" class="user-img-edit">选择图片</span>
+                    <transition name="slide-down"><span v-if="show" id="img_edit_info" class="user-img-edit">选择图片</span></transition>
                 </div>
-                <span><label style="color:gray;display:inline;margin-left: 10px;">支持jpg、jpeg、gif、png、bmp格式的图片</label></span>
+                <span><label class="update-img-info">支持jpg、jpeg、gif、png、bmp格式的图片</label></span>
             </div>
 
             <div class="uk-form-row" style="text-align:center;margin: 30px;">
