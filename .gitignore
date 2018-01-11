@@ -2,3 +2,4 @@
 www/__pycache__/
 www/static/uploads/
 www/config_default.py
+www/getAliyun.py
