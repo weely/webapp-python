@@ -105,7 +105,7 @@ async def get_blog(id):
 
 @get('/note')
 async def get_note():
-    file = os.path.join(os.path.split(__file__)[0], r'static\\python_study.md')
+    file = os.path.join(os.path.split(os.path.abspath(__file__))[0], r'static\\python_study.md')
     if os.path.exists(file):
         update_time = os.path.getmtime(file)
         with open(file, 'r', encoding='utf-8', errors='ignore') as f:
