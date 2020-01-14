@@ -3,6 +3,7 @@
 
 {% block title %}随 笔{% endblock %}
 {% block beforehead %}
+    <script src="/static/js/config_params.js"></script>
     <script>
         $(function(){
             var calendar = new Vue({
@@ -25,6 +26,12 @@
 {% endblock %}
 {% block content %}
 <div id="vm" class="uk-width-medium-3-4">
+111111111111111111
+    <div v-for="(value,item) in __citys.city_grade[111]">
+        @{{ value }}111
+    </div>
+
+
     {% for blog in blogs %}
     <article class="uk-article">
         <h2><a href="/blog/{{ blog.id }}">{{ blog.name }}</a></h2>

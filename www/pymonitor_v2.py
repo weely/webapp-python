@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 
+__author__ = 'weely'
+
+
 from tkinter import ttk
 import tkinter as tk
 import os, sys, subprocess, time, threading
